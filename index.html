@@ -190,6 +190,436 @@
             font-size: 16px;
             color: #000000;
         }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666666;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .setup-section label {
+                font-size: 16px;
+            }
+
+            .option-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+                min-width: 60px;
+            }
+
+            .game-info {
+                gap: 20px;
+                font-size: 14px;
+            }
+
+            .footer {
+                margin-top: 30px;
+                font-size: 12px;
+            }
+
+            .game-board.grid-10 {
+                grid-template-columns: repeat(5, 60px);
+                grid-template-rows: repeat(2, 60px);
+                gap: 8px;
+            }
+
+            .game-board.grid-20 {
+                grid-template-columns: repeat(5, 60px);
+                grid-template-rows: repeat(4, 60px);
+                gap: 8px;
+            }
+
+            .game-board.grid-30 {
+                grid-template-columns: repeat(6, 50px);
+                grid-template-rows: repeat(5, 50px);
+                gap: 6px;
+            }
+
+            .game-board.grid-40 {
+                grid-template-columns: repeat(8, 40px);
+                grid-template-rows: repeat(5, 40px);
+                gap: 5px;
+            }
+
+            .card {
+                font-size: 30px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .message {
+                font-size: 16px;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .option-group {
+                gap: 10px;
+            }
+
+            .option-btn {
+                padding: 10px 15px;
+                font-size: 12px;
+                min-width: 50px;
+            }
+
+            .game-board.grid-10 {
+                grid-template-columns: repeat(5, 55px);
+                grid-template-rows: repeat(2, 55px);
+            }
+
+            .game-board.grid-20 {
+                grid-template-columns: repeat(5, 55px);
+                grid-template-rows: repeat(4, 55px);
+            }
+
+            .game-board.grid-30 {
+                grid-template-columns: repeat(6, 45px);
+                grid-template-rows: repeat(5, 45px);
+            }
+
+            .game-board.grid-40 {
+                grid-template-columns: repeat(8, 35px);
+                grid-template-rows: repeat(5, 35px);
+            }
+
+            .card {
+                font-size: 24px;
+            }
+        }
+
+        /* Portrait orientation - vertical layout */
+        @media (max-width: 768px) and (orientation: portrait) {
+            body {
+                padding: 10px;
+                min-height: 100vh;
+            }
+
+            h1 {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+
+            .game-container {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .player-info {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+
+            .game-info {
+                gap: 20px;
+                font-size: 14px;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .game-board {
+                margin-bottom: 15px;
+            }
+
+            .game-board.grid-10 {
+                grid-template-columns: repeat(2, 70px);
+                grid-template-rows: repeat(5, 70px);
+                gap: 8px;
+            }
+
+            .game-board.grid-20 {
+                grid-template-columns: repeat(4, 70px);
+                grid-template-rows: repeat(5, 70px);
+                gap: 8px;
+            }
+
+            .game-board.grid-30 {
+                grid-template-columns: repeat(5, 55px);
+                grid-template-rows: repeat(6, 55px);
+                gap: 6px;
+            }
+
+            .game-board.grid-40 {
+                grid-template-columns: repeat(5, 55px);
+                grid-template-rows: repeat(8, 55px);
+                gap: 6px;
+            }
+
+            .card {
+                font-size: 32px;
+            }
+
+            button {
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+
+            .message {
+                font-size: 15px;
+                margin-top: 15px;
+            }
+        }
+
+        @media (max-width: 480px) and (orientation: portrait) {
+            body {
+                padding: 8px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+
+            .player-info {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            .game-info {
+                gap: 15px;
+                font-size: 13px;
+                margin-bottom: 15px;
+            }
+
+            .game-board {
+                margin-bottom: 12px;
+            }
+
+            .game-board.grid-10 {
+                grid-template-columns: repeat(2, 65px);
+                grid-template-rows: repeat(5, 65px);
+                gap: 7px;
+            }
+
+            .game-board.grid-20 {
+                grid-template-columns: repeat(4, 65px);
+                grid-template-rows: repeat(5, 65px);
+                gap: 7px;
+            }
+
+            .game-board.grid-30 {
+                grid-template-columns: repeat(5, 50px);
+                grid-template-rows: repeat(6, 50px);
+                gap: 5px;
+            }
+
+            .game-board.grid-40 {
+                grid-template-columns: repeat(5, 48px);
+                grid-template-rows: repeat(8, 48px);
+                gap: 5px;
+            }
+
+            .card {
+                font-size: 28px;
+            }
+
+            button {
+                padding: 8px 20px;
+                font-size: 13px;
+            }
+
+            .message {
+                font-size: 14px;
+                margin-top: 12px;
+            }
+        }
+
+        /* Landscape orientation - horizontal layout */
+        @media (max-height: 600px) and (orientation: landscape) {
+            body {
+                padding: 5px;
+                justify-content: flex-start;
+            }
+
+            h1 {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+
+            .game-container {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .game-info {
+                margin-bottom: 8px;
+                font-size: 11px;
+                gap: 15px;
+            }
+
+            .player-info {
+                margin-bottom: 8px;
+                font-size: 11px;
+            }
+
+            .game-board {
+                margin-bottom: 8px;
+            }
+
+            .game-board.grid-10 {
+                grid-template-columns: repeat(5, 50px);
+                grid-template-rows: repeat(2, 50px);
+                gap: 5px;
+            }
+
+            .game-board.grid-20 {
+                grid-template-columns: repeat(10, 45px);
+                grid-template-rows: repeat(2, 45px);
+                gap: 4px;
+            }
+
+            .game-board.grid-30 {
+                grid-template-columns: repeat(10, 40px);
+                grid-template-rows: repeat(3, 40px);
+                gap: 4px;
+            }
+
+            .game-board.grid-40 {
+                grid-template-columns: repeat(10, 38px);
+                grid-template-rows: repeat(4, 38px);
+                gap: 3px;
+            }
+
+            .card {
+                font-size: 20px;
+            }
+
+            button {
+                padding: 6px 15px;
+                font-size: 11px;
+            }
+
+            .message {
+                margin-top: 8px;
+                font-size: 12px;
+                min-height: 20px;
+            }
+
+            .setup-section {
+                gap: 8px;
+            }
+
+            .start-screen {
+                gap: 20px;
+            }
+
+            .option-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+                min-width: 45px;
+            }
+
+            .footer {
+                margin-top: 20px;
+                font-size: 10px;
+            }
+        }
+
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 3px;
+            }
+
+            h1 {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .game-info {
+                margin-bottom: 5px;
+                font-size: 10px;
+                gap: 12px;
+            }
+
+            .player-info {
+                margin-bottom: 5px;
+                font-size: 10px;
+            }
+
+            .game-board {
+                margin-bottom: 5px;
+            }
+
+            .game-board.grid-10 {
+                grid-template-columns: repeat(5, 45px);
+                grid-template-rows: repeat(2, 45px);
+                gap: 4px;
+            }
+
+            .game-board.grid-20 {
+                grid-template-columns: repeat(10, 38px);
+                grid-template-rows: repeat(2, 38px);
+                gap: 3px;
+            }
+
+            .game-board.grid-30 {
+                grid-template-columns: repeat(10, 35px);
+                grid-template-rows: repeat(3, 35px);
+                gap: 3px;
+            }
+
+            .game-board.grid-40 {
+                grid-template-columns: repeat(10, 32px);
+                grid-template-rows: repeat(4, 32px);
+                gap: 2px;
+            }
+
+            .card {
+                font-size: 18px;
+            }
+
+            button {
+                padding: 5px 12px;
+                font-size: 10px;
+            }
+
+            .message {
+                margin-top: 5px;
+                font-size: 11px;
+                min-height: 18px;
+            }
+
+            .setup-section {
+                gap: 6px;
+            }
+
+            .start-screen {
+                gap: 15px;
+            }
+
+            .option-btn {
+                padding: 6px 10px;
+                font-size: 10px;
+                min-width: 40px;
+            }
+
+            .footer {
+                margin-top: 15px;
+                font-size: 9px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -217,6 +647,8 @@
         </div>
 
         <button onclick="startGame()" style="margin-top: 20px;">START GAME</button>
+
+        <div class="footer">© 2025 Hamanto Studio</div>
     </div>
 
     <div class="game-container" id="gameContainer">
