@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #000000;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .setup-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .setup-section label {
+            font-size: 18px;
+            font-weight: 400;
+            color: #000000;
+            letter-spacing: 1px;
+        }
+
+        .option-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .option-btn {
+            padding: 15px 25px;
+            font-size: 16px;
+            background-color: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 400;
+            letter-spacing: 1px;
+            min-width: 80px;
+        }
+
+        .option-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .option-btn.selected {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .game-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-container.active {
+            display: flex;
+        }
+
+        .game-info {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 30px;
+            color: #000000;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .game-board {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .game-board.grid-10 {
+            grid-template-columns: repeat(5, 90px);
+            grid-template-rows: repeat(2, 90px);
+        }
+
+        .game-board.grid-20 {
+            grid-template-columns: repeat(5, 90px);
+            grid-template-rows: repeat(4, 90px);
+        }
+
+        .game-board.grid-30 {
+            grid-template-columns: repeat(6, 85px);
+            grid-template-rows: repeat(5, 85px);
+        }
+
+        .game-board.grid-40 {
+            grid-template-columns: repeat(8, 80px);
+            grid-template-rows: repeat(5, 80px);
+        }
+
+        .card {
+            background-color: #000000;
+            border: 1px solid #000000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            opacity: 0.8;
+        }
+
+        .card.flipped {
+            background-color: #ffffff;
+            border: 1px solid #000000;
+        }
+
+        .card.matched {
+            background-color: #f5f5f5;
+            border: 1px solid #cccccc;
+            cursor: default;
+            opacity: 0.6;
+        }
+
+        .card.matched:hover {
+            opacity: 0.6;
+        }
+
+        .card:not(.flipped):not(.matched)::before {
+            content: '';
+            color: #ffffff;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .message {
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: 400;
+            color: #000000;
+            min-height: 30px;
+        }
+
+        .player-info {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <h1>MEMORY GAME</h1>
+
+    <div class="start-screen" id="startScreen">
+        <div class="setup-section">
+            <label>NUMBER OF PLAYERS</label>
+            <div class="option-group">
+                <button class="option-btn selected" data-players="1">1</button>
+                <button class="option-btn" data-players="2">2</button>
+                <button class="option-btn" data-players="3">3</button>
+                <button class="option-btn" data-players="4">4</button>
+            </div>
+        </div>
+
+        <div class="setup-section">
+            <label>NUMBER OF CARDS</label>
+            <div class="option-group">
+                <button class="option-btn" data-cards="10">10</button>
+                <button class="option-btn selected" data-cards="20">20</button>
+                <button class="option-btn" data-cards="30">30</button>
+                <button class="option-btn" data-cards="40">40</button>
+            </div>
+        </div>
+
+        <button onclick="startGame()" style="margin-top: 20px;">START GAME</button>
+    </div>
+
+    <div class="game-container" id="gameContainer">
+        <div class="player-info" id="playerInfo"></div>
+
+        <div class="game-info">
+            <div>Moves: <span id="moves">0</span></div>
+            <div>Matches: <span id="matches">0</span>/<span id="totalPairs">10</span></div>
+        </div>
+
+        <div class="game-board" id="gameBoard"></div>
+
+        <button onclick="resetGame()">NEW GAME</button>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        // All available animal emojis (20 pairs = 40 cards max)
+        const allCardSymbols = [
+            '🐶', '🐱', '🐼', '🦁', '🐘', '🦊', '🐸', '🐰', '🦄', '🐵',
+            '🐯', '🐨', '🐮', '🐷', '🐻', '🐹', '🐺', '🦝', '🦒', '🦘'
+        ];
+
+        let gameSettings = {
+            playerCount: 1,
+            cardCount: 20,
+            currentPlayer: 1
+        };
+
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let canFlip = true;
+        let cardSymbols = [];
+
+        // Sound System using Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            const now = audioContext.currentTime;
+
+            switch(type) {
+                case 'flip':
+                    // Short click sound
+                    oscillator.frequency.setValueAtTime(800, now);
+                    gainNode.gain.setValueAtTime(0.3, now);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    oscillator.start(now);
+                    oscillator.stop(now + 0.1);
+                    break;
+
+                case 'match':
+                    // Positive ascending tone
+                    oscillator.frequency.setValueAtTime(523, now);
+                    oscillator.frequency.setValueAtTime(659, now + 0.1);
+                    oscillator.frequency.setValueAtTime(784, now + 0.2);
+                    gainNode.gain.setValueAtTime(0.3, now);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    oscillator.start(now);
+                    oscillator.stop(now + 0.3);
+                    break;
+
+                case 'nomatch':
+                    // Negative descending tone
+                    oscillator.frequency.setValueAtTime(400, now);
+                    oscillator.frequency.setValueAtTime(300, now + 0.15);
+                    gainNode.gain.setValueAtTime(0.2, now);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    oscillator.start(now);
+                    oscillator.stop(now + 0.2);
+                    break;
+
+                case 'win':
+                    // Victory melody
+                    const notes = [523, 659, 784, 1047];
+                    notes.forEach((freq, i) => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        osc.frequency.setValueAtTime(freq, now + i * 0.15);
+                        gain.gain.setValueAtTime(0.3, now + i * 0.15);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.15 + 0.3);
+                        osc.start(now + i * 0.15);
+                        osc.stop(now + i * 0.15 + 0.3);
+                    });
+                    return;
+
+                case 'click':
+                    // Subtle button click
+                    oscillator.frequency.setValueAtTime(600, now);
+                    gainNode.gain.setValueAtTime(0.2, now);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    oscillator.start(now);
+                    oscillator.stop(now + 0.05);
+                    break;
+            }
+        }
+
+        // Setup screen option selection
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                playSound('click');
+                const group = this.parentElement;
+                group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        function startGame() {
+            playSound('click');
+
+            // Get selected options
+            gameSettings.playerCount = parseInt(document.querySelector('[data-players].selected').dataset.players);
+            gameSettings.cardCount = parseInt(document.querySelector('[data-cards].selected').dataset.cards);
+            gameSettings.currentPlayer = 1;
+
+            // Hide start screen, show game
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('gameContainer').classList.add('active');
+
+            // Update player info
+            if (gameSettings.playerCount > 1) {
+                document.getElementById('playerInfo').textContent =
+                    `Current Player: ${gameSettings.currentPlayer}`;
+            } else {
+                document.getElementById('playerInfo').textContent = '';
+            }
+
+            // Initialize game
+            initGame();
+        }
+
+        function initGame() {
+            const pairsNeeded = gameSettings.cardCount / 2;
+            cardSymbols = allCardSymbols.slice(0, pairsNeeded);
+
+            // Update total pairs display
+            document.getElementById('totalPairs').textContent = pairsNeeded;
+
+            // Create pairs of cards
+            cards = [];
+            cardSymbols.forEach(symbol => {
+                cards.push({ symbol, id: Math.random() });
+                cards.push({ symbol, id: Math.random() });
+            });
+
+            // Shuffle cards
+            cards.sort(() => Math.random() - 0.5);
+
+            // Reset game state
+            flippedCards = [];
+            matchedPairs = 0;
+            moves = 0;
+            canFlip = true;
+
+            // Update UI
+            updateStats();
+            renderBoard();
+            document.getElementById('message').textContent = '';
+        }
+
+        function renderBoard() {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+
+            // Set grid class based on card count
+            board.className = 'game-board grid-' + gameSettings.cardCount;
+
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                cardElement.dataset.index = index;
+                cardElement.onclick = () => flipCard(index);
+                board.appendChild(cardElement);
+            });
+        }
+
+        function flipCard(index) {
+            if (!canFlip) return;
+
+            const cardElement = document.querySelectorAll('.card')[index];
+
+            // Don't flip if already flipped or matched
+            if (cardElement.classList.contains('flipped') ||
+                cardElement.classList.contains('matched')) {
+                return;
+            }
+
+            // Play flip sound
+            playSound('flip');
+
+            // Flip the card
+            cardElement.classList.add('flipped');
+            cardElement.textContent = cards[index].symbol;
+            flippedCards.push(index);
+
+            // Check if two cards are flipped
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                moves++;
+                updateStats();
+
+                setTimeout(checkMatch, 800);
+            }
+        }
+
+        function checkMatch() {
+            const [index1, index2] = flippedCards;
+            const card1 = document.querySelectorAll('.card')[index1];
+            const card2 = document.querySelectorAll('.card')[index2];
+
+            if (cards[index1].symbol === cards[index2].symbol) {
+                // Match found
+                playSound('match');
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                matchedPairs++;
+                updateStats();
+
+                // Check if game is won
+                const totalPairs = gameSettings.cardCount / 2;
+                if (matchedPairs === totalPairs) {
+                    setTimeout(() => {
+                        playSound('win');
+                        if (gameSettings.playerCount === 1) {
+                            document.getElementById('message').textContent =
+                                `You won in ${moves} moves`;
+                        } else {
+                            document.getElementById('message').textContent =
+                                `Game complete in ${moves} moves`;
+                        }
+                    }, 300);
+                }
+            } else {
+                // No match - flip back
+                playSound('nomatch');
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.textContent = '';
+                card2.textContent = '';
+
+                // Switch player if multiplayer
+                if (gameSettings.playerCount > 1) {
+                    gameSettings.currentPlayer = (gameSettings.currentPlayer % gameSettings.playerCount) + 1;
+                    document.getElementById('playerInfo').textContent =
+                        `Current Player: ${gameSettings.currentPlayer}`;
+                }
+            }
+
+            flippedCards = [];
+            canFlip = true;
+        }
+
+        function updateStats() {
+            document.getElementById('moves').textContent = moves;
+            document.getElementById('matches').textContent = matchedPairs;
+        }
+
+        function resetGame() {
+            playSound('click');
+            // Return to start screen
+            document.getElementById('gameContainer').classList.remove('active');
+            document.getElementById('startScreen').style.display = 'flex';
+            gameSettings.currentPlayer = 1;
+        }
+    </script>
+</body>
+</html>
