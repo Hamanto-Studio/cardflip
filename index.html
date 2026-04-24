@@ -689,7 +689,22 @@
         // Sound System using Web Audio API
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
+        // Resume audio context for iOS Safari
+        function resumeAudioContext() {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+
+        // Initialize audio on first user interaction
+        function initAudio() {
+            resumeAudioContext();
+        }
+
         function playSound(type) {
+            // Ensure audio context is running (required for iOS)
+            resumeAudioContext();
+
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
 
@@ -756,9 +771,23 @@
             }
         }
 
+        // Initialize audio context on first user interaction (required for iOS)
+        let audioInitialized = false;
+        function ensureAudioReady() {
+            if (!audioInitialized) {
+                initAudio();
+                audioInitialized = true;
+            }
+        }
+
+        // Listen for first user interaction
+        document.addEventListener('touchstart', ensureAudioReady, { once: true });
+        document.addEventListener('click', ensureAudioReady, { once: true });
+
         // Setup screen option selection
         document.querySelectorAll('.option-btn').forEach(btn => {
             btn.addEventListener('click', function() {
+                initAudio(); // Initialize audio for iOS
                 playSound('click');
                 const group = this.parentElement;
                 group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
@@ -767,6 +796,7 @@
         });
 
         function startGame() {
+            initAudio(); // Initialize audio for iOS
             playSound('click');
 
             // Get selected options
@@ -847,6 +877,7 @@
             }
 
             // Play flip sound
+            initAudio(); // Initialize audio for iOS
             playSound('flip');
 
             // Flip the card
@@ -919,6 +950,7 @@
         }
 
         function resetGame() {
+            initAudio(); // Initialize audio for iOS
             playSound('click');
             // Return to start screen
             document.getElementById('gameContainer').classList.remove('active');
